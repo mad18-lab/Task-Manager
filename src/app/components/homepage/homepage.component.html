@@ -13,7 +13,7 @@
 </div>
 
 <div *ngIf="tasks.length > 0" class="group flex flex-col mx-auto px-2 py-3 mt-8 w-[680px] rounded-lg border-[2px] border-black">
-    <ul class="group-hover:scrollbar-thin">
+    <ul class="overflow-y-auto max-h-[400px] scrollbar-none group-hover:scrollbar-thin">
         <li *ngFor="let task of tasks; let i = index">
             <div class="slide-in-left mb-[6px] mx-auto justify-center items-center">
                 <div (click)="toggleTaskCompletion(task)" class="p-4 w-[520px] text-white 
