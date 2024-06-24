@@ -1,0 +1,29 @@
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+.slide-in-left {
+    animation: slideInLeft 3s forwards;
+}
+
+.slide-out-right {
+    animation: slideOutBottom 3s forwards;
+}
