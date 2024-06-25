@@ -20,6 +20,10 @@
     }
 }
 
+.picker {
+    z-index: 1000000 !important;
+}
+
 .slide-in-left {
     animation: slideInLeft 3s forwards;
 }
