@@ -12,17 +12,23 @@ export class HomepageComponent implements OnInit {
   public time: string='09:15:30';
   public timer: boolean = false;
   public showTasks: boolean = false;
+  public emptyStr: boolean = false;
   @Output() showTimePicker = new EventEmitter<void>();
 
   ngOnInit(): void {
     localStorage.clear();
   }
 
-  public addTask() {
+  public addTask(event: Event) {
+    event.preventDefault(); // Prevent form submission from reloading the page
+
     if (this.newTask.trim()) {
-      this.tasks.push({ text: this.newTask.trim(), completed: false });
+      this.tasks.push({ text: this.newTask.trim(), completed: false, isEditing: false });
       this.newTask = '';
       this.showTasks = true;
+      this.emptyStr = false; // Reset the variable if input is valid
+    } else {
+      this.emptyStr = true; // Set the variable if input is empty
     }
   }
 
@@ -40,5 +46,13 @@ export class HomepageComponent implements OnInit {
 
   public handleShowTimePickerEvent() {
     this.timer = true;
+  }
+
+  public editTask(task: Task) {
+    task.isEditing = true;
+  }
+
+  public updateTask(task: Task) {
+    task.isEditing = false;
   }
 }

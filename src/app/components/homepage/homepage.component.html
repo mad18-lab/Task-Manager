@@ -3,13 +3,16 @@
 </div>
 
 <div class="flex gap-5 items-center justify-center mx-auto">
-    <form (submit)="addTask()">
-        <input type="text" [(ngModel)]="newTask" id="task" name="task" autocomplete="off" class="rounded-lg border-[3px] border-[#12123a] w-[550px] p-3 focus:outline-none" placeholder="Enter Task Here" />
+    <form (submit)="addTask($event)">
+        <input type="text" [(ngModel)]="newTask" id="task" name="task" autocomplete="off" 
+        class="rounded-lg w-[550px] p-3 focus: outline-none"
+        [ngClass]="{'border-[3px] border-[#b10202]': emptyStr, 'border-[3px] border-[#12123a]': !emptyStr}" 
+        placeholder="Enter Task Here" />
     </form>
     <button (click)="addTime()" type="button" class="w-12 h-12 rounded-full text-white flex items-center justify-center">
         <img src="clock.svg" alt="Add Time" />
     </button>
-    <button (click)="addTask()" type="button" class="w-12 h-12 rounded-full text-white flex items-center justify-center">
+    <button (click)="addTask($event)" type="submit" class="w-12 h-12 rounded-full text-white flex items-center justify-center">
         <img src="plus.svg" alt="Add Task" />
     </button>
 </div>
@@ -20,13 +23,22 @@
     <ul *ngIf="tasks.length > 0" class="overflow-y-auto max-h-[400px] scrollbar-none group-hover:scrollbar-thin">
         <li *ngFor="let task of tasks; let i = index">
             <div class="slide-in-left mb-[6px] mx-auto justify-center items-center">
-                <div (click)="toggleTaskCompletion(task)" class="p-4 w-[520px] text-white 
+                <div class="p-4 w-[520px] text-white 
                 mx-auto items-center font-semibold hover:cursor-pointer 
                 transform transition duration-300 ease-in-out hover:scale-110 flex justify-between"
                 [ngClass]="{'bg-black line-through': task.completed, 'bg-[#6bb1e0]': !task.completed}"
                 [ngStyle]="{'text-decoration': task.completed ? 'line-through' : 'none'}">
-                    {{ task.text }}
-                    <img (click)="removeTask(i)" src="trash.svg" class="h-10 w-10" />
+                    <div class="max-w-[300px]">
+                        <span *ngIf="!task.isEditing" (click)="toggleTaskCompletion(task)" class="break-words whitespace-normal">{{ task.text }}</span>
+                        <input *ngIf="task.isEditing" type="text" id="task" [(ngModel)]="task.text" name="task" 
+                        autocomplete="off" placeholder="Enter Updated Task" 
+                        class="rounded-lg w-[280px] p-3 focus: outline-none bg-black"
+                        (blur)="updateTask(task)" (keyup.enter)="updateTask(task)" />
+                    </div>
+                    <div class="flex gap-2">
+                        <img (click)="editTask(task)" src="edit.svg" class="h-10 w-10" />
+                        <img (click)="removeTask(i)" src="trash.svg" class="h-10 w-10" />
+                    </div>
                 </div>
             </div>
         </li>
